@@ -6,13 +6,13 @@
 [threshold squares direction take current-sprint current-steps]
 do (println " squares " squares " current steps " current-steps " current-sprint " current-sprint " direction " direction " take " take "threshold" threshold)
   (let [last-square (last squares)
-        next-pos 
+        current-pos 
           (if (= :right direction) {:x (inc (get last-square :x)) :y (get last-square :y)}
           (if (= :up direction) {:x (get last-square :x) :y (inc (get last-square :y))}
           (if (= :down direction) {:x (get last-square :x) :y (dec (get last-square :y))}
           (if (= :left direction) {:x (dec (get last-square :x)) :y (get last-square :y)}))))
         value-of-current-square (get-value-of-square squares)
-        current-square {:x (get next-pos :x) :y (get next-pos :y) :val value-of-current-square}]
+        current-square {:x (get current-pos :x) :y (get current-pos :y) :val value-of-current-square}]
       (if (> value-of-current-square threshold) 
         value-of-current-square
       (if (< current-steps current-sprint)
