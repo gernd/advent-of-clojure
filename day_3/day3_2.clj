@@ -5,12 +5,12 @@
 (defn get-first-value-above-threshold-helper
 [threshold squares direction take current-sprint current-steps]
 do (println " squares " squares " current steps " current-steps " current-sprint " current-sprint " direction " direction " take " take "threshold" threshold)
-  (let [position (last squares)
+  (let [last-square (last squares)
         next-pos 
-          (if (= :right direction) {:x (inc (get position :x)) :y (get position :y)}
-          (if (= :up direction) {:x (get position :x) :y (inc (get position :y))}
-          (if (= :down direction) {:x (get position :x) :y (dec (get position :y))}
-          (if (= :left direction) {:x (dec (get position :x)) :y (get position :y)}))))
+          (if (= :right direction) {:x (inc (get last-square :x)) :y (get last-square :y)}
+          (if (= :up direction) {:x (get last-square :x) :y (inc (get last-square :y))}
+          (if (= :down direction) {:x (get last-square :x) :y (dec (get last-square :y))}
+          (if (= :left direction) {:x (dec (get last-square :x)) :y (get last-square :y)}))))
         value-of-current-square (get-value-of-square squares)]
       (if (> value-of-current-square threshold) 
         value-of-current-square
