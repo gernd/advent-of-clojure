@@ -1,6 +1,6 @@
-(defn get-value-of-square 
-[]
-10)
+(defn get-value-of-square
+[squares]
+(count squares))
 
 (defn get-first-value-above-threshold-helper
 [threshold steps-total squares direction take current-sprint current-steps]
@@ -11,7 +11,7 @@ do (println "steps-total " steps-total " squares " squares " current steps " cur
           (if (= :up direction) {:x (get position :x) :y (inc (get position :y))}
           (if (= :down direction) {:x (get position :x) :y (dec (get position :y))}
           (if (= :left direction) {:x (dec (get position :x)) :y (get position :y)}))))
-        value-of-current-square (get-value-of-square)]
+        value-of-current-square (get-value-of-square squares)]
       (if (> value-of-current-square threshold) 
         value-of-current-square
       (if (< current-steps current-sprint)
@@ -30,4 +30,4 @@ do (println "steps-total " steps-total " squares " squares " current steps " cur
 [threshold]
 (get-first-value-above-threshold-helper threshold 1 [{:x 0 :y 0}] :right 1 1 1))
 
-(get-first-value-above-threshold 5)
+(get-first-value-above-threshold 10)
