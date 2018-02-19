@@ -1,3 +1,5 @@
+(use 'clojure.java.io)
+
 (defn calculate-steps 
 [steps-done ip instructions]
   (do (println "steps-done " steps-done " instruction pointer " ip " instructions " instructions)
@@ -9,4 +11,15 @@
           updated-instructions (assoc instructions ip updated-offset)]
         (calculate-steps (inc steps-done) new-ip updated-instructions)))))
 
-(calculate-steps 0 0 [0, 3, 0, 1, -3])
+(defn get-lines
+        [fname]
+        (with-open [r (reader fname)]
+                          (doall (line-seq r))))
+
+(defn load-instructions 
+  []
+  (vec (get-lines "day_5/input.txt")))
+
+
+;(calculate-steps 0 0 [0, 3, 0, 1, -3])
+(load-instructions)
