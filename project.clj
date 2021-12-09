@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/tools.trace "0.7.11"]
                  ]
+  :plugins [[lein-cljfmt "0.6.6"]]
   :main ^:skip-aot clojureadv.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
