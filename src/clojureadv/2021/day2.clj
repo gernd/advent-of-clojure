@@ -17,13 +17,9 @@
               :else (assoc history :prev current :result (conj result :decreased))
               )))
 
-(deftrace solve [data]
+(comment deftrace solve [data]
           (->> data
                (reduce compute-sonar {:prev nil :result (vector)})
                (:result)
                (filter #(= % :increased))
                count))
-
-
-
-
