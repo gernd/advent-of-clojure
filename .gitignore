@@ -5,3 +5,7 @@
 # leiningen output
 .lein-failures
 /target/*
+
+# intellij
+.idea/*
+*.iml
