@@ -1,8 +1,6 @@
 (ns clojureadv.2021.day1
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]
-            [clojure.tools.trace :refer :all]
-            [clojureadv.2021.util :as :util]))
+  (:require [clojureadv.2021.util :as util]
+            [clojure.tools.trace :refer :all]))
 
 (def test-data [213 123 123 123 12 20 19 18 100 200 300 400])
 
@@ -21,6 +19,33 @@
        (filter #(= % :increased))
        count))
 
+(deftrace compute-window-difference [vals]
+  (let [reversed-vals (reverse vals)
+        new-window (take 3 reversed-vals)
+        previous-window (->> reversed-vals (take 4) (drop 1))]
+    (if (> (apply + new-window) (apply + previous-window)) :increased
+        :decreased)))
 
+(defn compute-sliding-window [history current]
+  (let [previous-vals (:vals history)
+        new-vals (conj previous-vals current)
+        sliding-window-computations (:computations history)]
+    (cond
+      (< (count new-vals) 3)
+      ; not enough values to calculate a window
+      (assoc history :vals new-vals)
 
+      (= 3 (count new-vals))
+      ; only one window filled
+      (assoc history :vals new-vals :computations (conj sliding-window-computations nil))
 
+      :else
+      ; we have at least two sliding windows
+      (assoc history :vals new-vals :computations (conj sliding-window-computations (compute-window-difference new-vals))))))
+
+(defn solve-part-2 [data]
+  (->> data
+       (reduce compute-sliding-window {:computations (vector) :vals (vector)})
+       (:computations)
+       (filter #(= % :increased))
+       count))
