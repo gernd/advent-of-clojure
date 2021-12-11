@@ -1,6 +1,5 @@
 (ns clojureadv.2021.day1
-  (:require [clojureadv.2021.util :as util]
-            [clojure.tools.trace :refer :all]))
+  (:require [clojure.tools.trace :refer :all]))
 
 (def test-data [213 123 123 123 12 20 19 18 100 200 300 400])
 
