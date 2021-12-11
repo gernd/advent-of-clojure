@@ -7,8 +7,7 @@
   (->> filename
        io/resource
        slurp
-       str/split-lines
-  ))
+       str/split-lines))
 
 (defn read-file-to-int-arr! [filename]
   (->> read-file-to-lines!
