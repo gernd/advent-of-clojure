@@ -48,3 +48,58 @@
        compute-rate-bits
        compute-rates
        compute-solution))
+
+(deftrace compute-bit-frequencies [data]
+  (->> data
+       (map index-to-digit)
+       flatten
+       (apply merge-with str)
+       compute-occurences))
+
+(deftrace compute-oxygen-bit [occurence]
+  (let [[first-bit first-bit-occurences] (first occurence)
+        [second-bit second-bit-occurences] (second occurence)]
+    (if (= first-bit-occurences second-bit-occurences)
+      \1
+      second-bit)))
+
+(deftrace compute-c02-scrubber-bit [occurence]
+  (let [[first-bit first-bit-occurences] (first occurence)
+        [second-bit second-bit-occurences] (second occurence)]
+    (if (= first-bit-occurences second-bit-occurences)
+      \0
+      first-bit)))
+
+(deftrace compute-bit-criteria [index data compute-bit-fn]
+  (-> data
+      compute-bit-frequencies
+      (nth index)
+      second
+      compute-bit-fn))
+
+(deftrace compute-oxygen-generator-bit-criteria [index data]
+  (compute-bit-criteria index data compute-oxygen-bit))
+
+(deftrace compute-c02-scrubber-bit-criteria [index data]
+  (compute-bit-criteria index data compute-c02-scrubber-bit))
+
+(deftrace keep-matching-data [index data bit-criteria]
+  (->> data
+       (filter #(= bit-criteria (get % index)))))
+
+(deftrace compute-rating [initial-data compute-rating-fn]
+  (loop [remaining-data initial-data index 0]
+    (let [generator-bit (compute-rating-fn index remaining-data)
+          matching-data (keep-matching-data index remaining-data generator-bit)]
+      (if (= 1 (count matching-data))
+        (Integer/parseInt (first matching-data) 2)
+        (recur matching-data (inc index))))))
+
+(deftrace compute-oxygen-generator-rating [initial-data]
+  (compute-rating initial-data compute-oxygen-generator-bit-criteria))
+
+(deftrace compute-c02-scrubber-rating [initial-data]
+  (compute-rating initial-data compute-c02-scrubber-bit-criteria))
+
+(defn solve-day3-part2 [data]
+  (* (compute-oxygen-generator-rating data) (compute-c02-scrubber-rating data)))
